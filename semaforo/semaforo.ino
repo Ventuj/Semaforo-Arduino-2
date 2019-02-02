@@ -4,10 +4,10 @@ int v = 5;
 int r1 = 4;
 int g1 = 3;
 int v1 = 2;
-int drosso = 3000;
+int drosso;
 int dverde = 500;
 int dgiallo = 800;
-String lampeggi;
+int lampeggi;
 String incomingByte;
 bool check = true;
 void setup() {
@@ -22,24 +22,31 @@ void setup() {
 }
 
 void loop() {
-  if(check == true){
+  if(check){
     Serial.print("Seleziona quanti lampeggi");
   }
   check = false;
-  if(Serial.available() > 0){
-    lampeggi = Serial.readString();
-    Serial.print("\nHai selezionato: ");
-    Serial.print(lampeggi.toInt());
-    Serial.print("\n");
-  }
-  if(lampeggi != NULL){
+  while(Serial.available() == 0){}
+  lampeggi = serialInput(Serial.readString());
+  Serial.print("\nHai selezionato: ");
+  Serial.print(lampeggi);
+  Serial.print("\nSeleziona Durata rosso in MilliSecondi");
+  while(Serial.available() == 0){}
+  drosso = serialInput(Serial.readString());
+  Serial.print("\nHai selezionato: ");
+  Serial.print(drosso);
+  if(lampeggi != NULL && drosso != NULL){
       esecuzione(r, v1);
       esecuzione(r1, v);
   }
 }
 
+int serialInput(String s){
+  return s.toInt();
+}
+
 void lampeggio(int v){
-  for(int i = 0; i < lampeggi.toInt(); i++){
+  for(int i = 0; i < lampeggi; i++){
     digitalWrite(v, HIGH);
     delay(dverde);
     digitalWrite(v,LOW);
