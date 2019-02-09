@@ -5,11 +5,9 @@ int r1 = 4;
 int g1 = 3;
 int v1 = 2;
 int drosso;
-int dverde = 500;
-int dgiallo = 800;
+int dverde;
+int dgiallo;
 int lampeggi;
-String incomingByte;
-bool check = true;
 void setup() {
   pinMode(r, OUTPUT);
   pinMode(r1, OUTPUT);
@@ -18,24 +16,30 @@ void setup() {
   pinMode(v, OUTPUT);
   pinMode(v1, OUTPUT);
   Serial.begin(9600);
-  Serial.print("Impostazioni semaforo \n");
-}
-
-void loop() {
-  if(check){
-    Serial.print("Seleziona quanti lampeggi");
-  }
-  check = false;
+  Serial.println("Impostazioni semaforo");
+  Serial.println("Seleziona quanti lampeggi per il verde");
   while(Serial.available() == 0){}
   lampeggi = serialInput(Serial.readString());
-  Serial.print("\nHai selezionato: ");
+  Serial.print("Hai selezionato: ");
   Serial.print(lampeggi);
-  Serial.print("\nSeleziona Durata rosso in MilliSecondi");
+  Serial.println("\nSeleziona Durata Rosso in MilliSecondi");
   while(Serial.available() == 0){}
   drosso = serialInput(Serial.readString());
-  Serial.print("\nHai selezionato: ");
+  Serial.print("Hai selezionato: ");
   Serial.print(drosso);
-  if(lampeggi != NULL && drosso != NULL){
+  Serial.println("\nSeleziona Durata Giallo in MilliSecondi");
+  while(Serial.available() == 0){}
+  dgiallo = serialInput(Serial.readString());
+  Serial.print("Hai selezionato: ");
+  Serial.print(dgiallo);
+  Serial.println("\nSeleziona Itervallo Verde in MilliSecondi");
+  while(Serial.available() == 0){}
+  dverde = serialInput(Serial.readString());
+  Serial.print("Hai selezionato: ");
+  Serial.print(dverde);
+}
+void loop(){
+  if(lampeggi != NULL && drosso != NULL && dgiallo != NULL && dverde != NULL){
       esecuzione(r, v1);
       esecuzione(r1, v);
   }
